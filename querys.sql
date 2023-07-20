@@ -1,11 +1,11 @@
---1.Повернути ПІБ всіх барберів салону.
+--1.РџРѕРІРµСЂРЅСѓС‚Рё РџР†Р‘ РІСЃС–С… Р±Р°СЂР±РµСЂС–РІ СЃР°Р»РѕРЅСѓ.
 create view BarbersPIB as
 select b.Surname+' '+b.Name+' '+b.Lastname as 'Barbers full name'
 from Barbers as b
 go
 select * from BarbersPIB
 
---2.Повернути інформацію про всіх синьйор-барберів.
+--2.РџРѕРІРµСЂРЅСѓС‚Рё С–РЅС„РѕСЂРјР°С†С–СЋ РїСЂРѕ РІСЃС–С… СЃРёРЅСЊР№РѕСЂ-Р±Р°СЂР±РµСЂС–РІ.
 create view SeniorsBarbers as
 select *
 from Barbers as b
@@ -14,7 +14,7 @@ go
 select* from SeniorsBarbers
 go
 
---3.Повернути інформацію про всіх барберів, які можуть надати послугу традиційного гоління бороди.
+--3.РџРѕРІРµСЂРЅСѓС‚Рё С–РЅС„РѕСЂРјР°С†С–СЋ РїСЂРѕ РІСЃС–С… Р±Р°СЂР±РµСЂС–РІ, СЏРєС– РјРѕР¶СѓС‚СЊ РЅР°РґР°С‚Рё РїРѕСЃР»СѓРіСѓ С‚СЂР°РґРёС†С–Р№РЅРѕРіРѕ РіРѕР»С–РЅРЅСЏ Р±РѕСЂРѕРґРё.
 create view BarbersTraditional as
 select b.Surname+' '+b.Name as 'Barbers name',b.PositionId as'Position'
 from Barbers as b join BarbersServices as bs on b.Id=bs.BarberId
@@ -23,7 +23,7 @@ go
 select*from BarbersTraditional
 go
 
---4. Повернути інформацію про всіх барберів, які можуть надати конкретну послугу. Інформація про потрібну послугу надається як параметр.
+--4. РџРѕРІРµСЂРЅСѓС‚Рё С–РЅС„РѕСЂРјР°С†С–СЋ РїСЂРѕ РІСЃС–С… Р±Р°СЂР±РµСЂС–РІ, СЏРєС– РјРѕР¶СѓС‚СЊ РЅР°РґР°С‚Рё РєРѕРЅРєСЂРµС‚РЅСѓ РїРѕСЃР»СѓРіСѓ. Р†РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РїРѕС‚СЂС–Р±РЅСѓ РїРѕСЃР»СѓРіСѓ РЅР°РґР°С”С‚СЊСЃСЏ СЏРє РїР°СЂР°РјРµС‚СЂ.
 create proc barbers_service @service nvarchar(60)
 as
 select b.Surname+' '+b.Name as 'Barbers name',b.PositionId as'Position'
@@ -31,10 +31,10 @@ from Barbers as b join BarbersServices as bs on b.Id=bs.BarberId
 				  join Services as s on s.Id=bs.ServiceId
 where s.Name=@service
 go
-exec barbers_service @service = 'Маскування сивини бороди'
-exec barbers_service @service = 'Чоловіча стрижка'
+exec barbers_service @service = 'РњР°СЃРєСѓРІР°РЅРЅСЏ СЃРёРІРёРЅРё Р±РѕСЂРѕРґРё'
+exec barbers_service @service = 'Р§РѕР»РѕРІС–С‡Р° СЃС‚СЂРёР¶РєР°'
 
---5. Повернути інформацію про всіх барберів, які працюють понад зазначену кількість років. Кількість років передається як параметр.
+--5. РџРѕРІРµСЂРЅСѓС‚Рё С–РЅС„РѕСЂРјР°С†С–СЋ РїСЂРѕ РІСЃС–С… Р±Р°СЂР±РµСЂС–РІ, СЏРєС– РїСЂР°С†СЋСЋС‚СЊ РїРѕРЅР°Рґ Р·Р°Р·РЅР°С‡РµРЅСѓ РєС–Р»СЊРєС–СЃС‚СЊ СЂРѕРєС–РІ. РљС–Р»СЊРєС–СЃС‚СЊ СЂРѕРєС–РІ РїРµСЂРµРґР°С”С‚СЊСЃСЏ СЏРє РїР°СЂР°РјРµС‚СЂ.
 create proc barbers_years @years int
 as
 select b.Surname+' '+b.Name as 'Barbers name',b.PositionId as'Position', DATEDIFF(year,b.HireDate,GETDATE()) as 'Years of work'
@@ -44,7 +44,7 @@ order by DATEDIFF(year,b.HireDate,GETDATE())
 go
 exec barbers_years @years =2
 
--- 6.Повернути кількість синьйор-барберів та кількість джуніор-барберів.
+-- 6.РџРѕРІРµСЂРЅСѓС‚Рё РєС–Р»СЊРєС–СЃС‚СЊ СЃРёРЅСЊР№РѕСЂ-Р±Р°СЂР±РµСЂС–РІ С‚Р° РєС–Р»СЊРєС–СЃС‚СЊ РґР¶СѓРЅС–РѕСЂ-Р±Р°СЂР±РµСЂС–РІ.
 create view count_of_barbers as
 select p.Name as 'Position name',COUNT(b.PositionId) as 'Count'
 from Barbers as b join Position as p on p.Id=b.PositionId
@@ -53,7 +53,7 @@ group by p.Name
 go
 select * from count_of_barbers
 
--- 7.Повернути інформацію про постійних клієнтів. Критерій постійного клієнта: був у салоні задану кількість разів.Кількість передається як параметр.
+-- 7.РџРѕРІРµСЂРЅСѓС‚Рё С–РЅС„РѕСЂРјР°С†С–СЋ РїСЂРѕ РїРѕСЃС‚С–Р№РЅРёС… РєР»С–С”РЅС‚С–РІ. РљСЂРёС‚РµСЂС–Р№ РїРѕСЃС‚С–Р№РЅРѕРіРѕ РєР»С–С”РЅС‚Р°: Р±СѓРІ Сѓ СЃР°Р»РѕРЅС– Р·Р°РґР°РЅСѓ РєС–Р»СЊРєС–СЃС‚СЊ СЂР°Р·С–РІ.РљС–Р»СЊРєС–СЃС‚СЊ РїРµСЂРµРґР°С”С‚СЊСЃСЏ СЏРє РїР°СЂР°РјРµС‚СЂ.
 create proc regular_customer @times int as
 select c.Name+' '+c.Surname as 'Client Name',COUNT(f.ClientId) as 'Number of visits'
 from Client as c join Feedbacks as f on f.ClientId=c.Id
@@ -62,7 +62,7 @@ having COUNT(f.ClientId)>=@times
 go
 exec regular_customer @times=2
 
--- 8. Заборонити додавати нового чіф-барбера
+-- 8. Р—Р°Р±РѕСЂРѕРЅРёС‚Рё РґРѕРґР°РІР°С‚Рё РЅРѕРІРѕРіРѕ С‡С–С„-Р±Р°СЂР±РµСЂР°
 create trigger not_more_chef
 on Barbers
 after insert
@@ -77,9 +77,9 @@ as
 	end
 go
 insert into Barbers values
-('Мищук','Тарас','Васильович','Ч','+38092721231773',' mu2sh2yk@gmail.com','1999-11-2','2022-5-16',1)
+('РњРёС‰СѓРє','РўР°СЂР°СЃ','Р’Р°СЃРёР»СЊРѕРІРёС‡','Р§','+38092721231773',' mu2sh2yk@gmail.com','1999-11-2','2022-5-16',1)
 
--- 9. Заборонити додавати барберів молодше 21 року.
+-- 9. Р—Р°Р±РѕСЂРѕРЅРёС‚Рё РґРѕРґР°РІР°С‚Рё Р±Р°СЂР±РµСЂС–РІ РјРѕР»РѕРґС€Рµ 21 СЂРѕРєСѓ.
 create trigger not_young_barbers
 on Barbers
 after insert
@@ -93,4 +93,4 @@ as
 	end;
 go
 insert into Barbers values
-('Мищук','Тарас','Васильович','Ч','+3809271231773',' mush2yk@gmail.com','2005-11-2','2022-5-16',3)
+('РњРёС‰СѓРє','РўР°СЂР°СЃ','Р’Р°СЃРёР»СЊРѕРІРёС‡','Р§','+3809271231773',' mush2yk@gmail.com','2005-11-2','2022-5-16',3)
